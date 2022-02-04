@@ -1,0 +1,51 @@
+% arara: pdflatex
+
+\documentclass{oblivoir}
+
+\usepackage{expl3,xparse}
+\usepackage{tabularray}
+\usepackage{tabto}
+\TabPositions{0pt, 0.1\linewidth}
+
+\NewDocumentCommand \FSeq{m}{F_{#1}}
+\ExplSyntaxOn  
+\NewDocumentCommand \Fibo { m }
+{
+	\Fibo_defn:n { #1 }
+}
+
+\cs_new:Npn \Fibo_defn:n #1
+{
+	\int_compare:nTF { #1 < 3}
+	{
+		1
+	}
+	{
+		\int_eval:n { \Fibo_defn:n {#1 - 2} + \Fibo_defn:n {#1 -1} }
+	}
+} 
+
+  
+
+
+\ExplSyntaxOff 
+ 
+\usepackage{ksforloop}
+ 
+\title{피보나치 수열 계산하기}
+\author{}
+
+
+
+\begin{document}  
+
+\maketitle  
+ 
+
+\ksforloop{i=0+1}{30}{
+\noindent   $F_{\number\ksfori}$ \tab \Fibo{\number\ksfori}\par
+} 
+
+
+
+\end{document}
